@@ -1,1 +1,857 @@
 
+<!DOCTYPE html>
+<html lang="pt">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rodrigo Twin AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:#050816;
+      color:white;
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:'';
+      position:fixed;
+      inset:0;
+      background:
+      radial-gradient(circle at top left, rgba(0,153,255,0.25), transparent 30%),
+      radial-gradient(circle at bottom right, rgba(0,255,200,0.15), transparent 30%),
+      #050816;
+      z-index:-2;
+    }
+
+    .grid{
+      position:fixed;
+      inset:0;
+      background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size:40px 40px;
+      z-index:-1;
+      mask-image:linear-gradient(to bottom, rgba(255,255,255,0.7), transparent);
+    }
+
+    .container{
+      width:92%;
+      max-width:1400px;
+      margin:auto;
+    }
+
+    nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:30px 0;
+    }
+
+    .logo{
+      font-size:1.5rem;
+      font-weight:800;
+      letter-spacing:2px;
+    }
+
+    .logo span{
+      color:#00bfff;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns:1.2fr 1fr;
+      gap:50px;
+      align-items:center;
+      min-height:85vh;
+    }
+
+    .hero h1{
+      font-size:5rem;
+      line-height:1;
+      margin-bottom:25px;
+      font-weight:800;
+    }
+
+    .hero h1 span{
+      color:#00bfff;
+    }
+
+    .hero p{
+      text-align: justify;
+      color:#b8c7dd;
+      font-size:1.15rem;
+      line-height:1.8;
+      max-width:700px;
+    }
+
+    .buttons{
+      display:flex;
+      gap:20px;
+      margin-top:35px;
+    }
+
+    .btn{
+      padding:16px 28px;
+      border-radius:14px;
+      border:none;
+      font-weight:600;
+      cursor:pointer;
+      transition:0.3s;
+      font-size:1rem;
+    }
+
+    .primary{
+      background:linear-gradient(135deg,#0099ff,#00d4ff);
+      color:white;
+      box-shadow:0 10px 40px rgba(0,153,255,0.35);
+    }
+
+    .secondary{
+      background:rgba(255,255,255,0.06);
+      color:white;
+      border:1px solid rgba(255,255,255,0.08);
+      backdrop-filter:blur(12px);
+    }
+
+    .btn:hover{
+      transform:translateY(-4px);
+    }
+
+    .card{
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:28px;
+      backdrop-filter:blur(18px);
+      padding:30px;
+      box-shadow:0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    .avatar-box{
+      position:relative;
+      height:600px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .avatar-circle{
+      width:340px;
+      height:340px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#00aaff,#00ffd5);
+      position:relative;
+      animation:float 4s ease-in-out infinite;
+      box-shadow:0 0 80px rgba(0,153,255,0.45);
+    }
+
+    .avatar-circle::before{
+      content:'RODRIGO AI';
+      position:absolute;
+      inset:18px;
+      border-radius:50%;
+      background:#071120;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:2rem;
+      font-weight:700;
+      letter-spacing:2px;
+    }
+
+    @keyframes float{
+      0%{transform:translateY(0px)}
+      50%{transform:translateY(-18px)}
+      100%{transform:translateY(0px)}
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+      margin-top:80px;
+    }
+
+    .stat-box{
+      text-align:center;
+      padding:30px;
+    }
+
+    .stat-box h2{
+      font-size:2.5rem;
+      color:#00bfff;
+      margin-bottom:10px;
+    }
+
+    .section-title{
+      font-size:2.5rem;
+      margin-bottom:20px;
+      font-weight:700;
+    }
+
+    .skills{
+      margin-top:120px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:25px;
+    }
+
+    .skill-card{
+      padding:35px;
+      transition:0.3s;
+    }
+
+    .skill-card:hover{
+      transform:translateY(-8px);
+      border-color:rgba(0,191,255,0.4);
+    }
+
+    .skill-card h3{
+      margin-top:20px;
+      margin-bottom:12px;
+      font-size:1.3rem;
+    }
+
+    .skill-card p{
+      color:#b8c7dd;
+      line-height:1.7;
+    }
+
+    .icon{
+      font-size:2rem;
+    }
+
+    .chat-section{
+      margin-top:120px;
+    }
+
+    .chat-wrapper{
+      overflow:hidden;
+      padding:0;
+    }
+
+    .chat-top{
+      background:#0b1628;
+      padding:22px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .online{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:#89ffd3;
+      font-size:0.95rem;
+    }
+
+    .dot{
+      width:10px;
+      height:10px;
+      background:#00ff99;
+      border-radius:50%;
+      box-shadow:0 0 12px #00ff99;
+    }
+
+    .messages{
+      height:450px;
+      overflow-y:auto;
+      padding:30px;
+      background:rgba(0,0,0,0.15);
+    }
+
+    .msg{
+      max-width:75%;
+      padding:18px;
+      margin-bottom:20px;
+      border-radius:18px;
+      line-height:1.7;
+      animation:fade 0.3s ease;
+    }
+
+    @keyframes fade{
+      from{opacity:0;transform:translateY(10px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .ai{
+      background:#101d35;
+      border:1px solid rgba(255,255,255,0.05);
+    }
+
+    .user{
+      background:linear-gradient(135deg,#0099ff,#0066ff);
+      margin-left:auto;
+    }
+
+    .chat-input{
+      display:flex;
+      gap:15px;
+      padding:20px;
+      border-top:1px solid rgba(255,255,255,0.08);
+      background:#08101d;
+    }
+
+    .chat-input input{
+      flex:1;
+      padding:18px;
+      border:none;
+      border-radius:14px;
+      background:#101d35;
+      color:white;
+      font-size:1rem;
+      outline:none;
+    }
+
+    .chat-input button{
+      padding:0 30px;
+      border:none;
+      border-radius:14px;
+      background:linear-gradient(135deg,#00aaff,#0066ff);
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    footer{
+      margin-top:120px;
+      padding-bottom:60px;
+      text-align:center;
+      color:#8ea3c0;
+    }
+
+    @media(max-width:1100px){
+      .hero{
+        grid-template-columns:1fr;
+      }
+
+      .hero h1{
+        font-size:3.5rem;
+      }
+
+      .skills{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .stats{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:700px){
+      .skills{
+        grid-template-columns:1fr;
+      }
+
+      .hero h1{
+        font-size:2.7rem;
+      }
+
+      .buttons{
+        flex-direction:column;
+      }
+    }
+    .file-upload{
+  padding:15px 20px 0 20px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.upload-btn{
+  background:#101d35;
+  border:1px solid rgba(255,255,255,0.08);
+  padding:12px 18px;
+  border-radius:12px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.upload-btn:hover{
+  background:#152544;
+}
+
+#fileName{
+  color:#9fb3cc;
+  font-size:0.95rem;
+}
+
+.competencias-section{
+  margin-top:120px;
+}
+
+.competencias-table{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:24px;
+  overflow:hidden;
+  backdrop-filter:blur(12px);
+}
+
+.table-header,
+.table-row{
+  display:grid;
+  grid-template-columns:1fr 2fr;
+}
+
+.table-header{
+  background:rgba(0,153,255,0.18);
+  font-weight:700;
+}
+
+.table-header div,
+.table-row div{
+  padding:24px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.table-row{
+  transition:0.3s;
+}
+
+.table-row:hover{
+  background:rgba(255,255,255,0.03);
+}
+  </style>
+</head>
+<body>
+
+<div class="grid"></div>
+
+<div class="container">
+
+  <nav>
+    <div class="logo">RODRIGO <span>TWIN AI</span></div>
+  </nav>
+
+  <section class="hero">
+
+    <div>
+      <h1>
+        Um <span>Gémeo Digital</span><br> Inteligente!
+      </h1>
+
+      <p>
+        Rodrigo Twin AI é um assistente pessoal inteligente baseado nos interesses,
+        personalidade e visão tecnológica do Rodrigo Pedro.
+        Combina o conhecimento do mesmo em inteligência artificial, fintech, economia, análise de dados
+        e comunicação natural numa experiência futurista.
+      </p>
+
+      <div class="buttons">
+        <button class="btn primary">Visão</button>
+        <button class="btn secondary">Conhecimento</button>
+      </div>
+    </div>
+
+    <div class="card avatar-box">
+      <div class="avatar-circle"></div>
+    </div>
+
+  </section>
+
+  <section class="stats">
+
+    <div class="card stat-box">
+      <h2>97%</h2>
+      <p>Precisão Inteligente</p>
+    </div>
+
+    <div class="card stat-box">
+      <h2>24/7</h2>
+      <p>Assistência Digital</p>
+    </div>
+
+    <div class="card stat-box">
+      <h2>AI</h2>
+      <p>Aprendizagem Contínua</p>
+    </div>
+
+  </section>
+
+  <section class="skills">
+
+    <div class="card skill-card">
+      <div class="icon">🧠</div>
+      <h3>Inteligência Artificial</h3>
+      <p>Capacidade de aprender, analisar e responder de forma contextual e natural.</p>
+    </div>
+
+    <div class="card skill-card">
+      <div class="icon">📊</div>
+      <h3>Análise de Dados</h3>
+      <p>Interpretação de dados e geração de insights inteligentes para tomada de decisão.</p>
+    </div>
+
+    <div class="card skill-card">
+      <div class="icon">💸</div>
+      <h3>Fintech & Economia</h3>
+      <p>Conhecimento financeiro, tendências económicas e sistemas digitais inteligentes.</p>
+    </div>
+
+    <div class="card skill-card">
+      <div class="icon">⚽</div>
+      <h3>Futebol & Performance</h3>
+      <p>Análise estratégica e utilização de IA aplicada ao desporto moderno.</p>
+    </div>
+
+    <div class="card skill-card">
+  <div class="icon">⚖️</div>
+  <h3>Ética & Moral</h3>
+  <p>
+    Capacidade de analisar decisões com base em princípios éticos,
+    impacto social e responsabilidade digital.
+  </p>
+</div>
+
+<div class="card skill-card">
+  <div class="icon">🧠</div>
+  <h3>Psicologia & Comportamento</h3>
+  <p>
+    Interpretação de comportamento humano, comunicação emocional
+    e adaptação contextual ao utilizador.
+  </p>
+</div>
+
+<div class="card skill-card">
+  <div class="icon">💳</div>
+  <h3>Fintech & Sistemas Financeiros</h3>
+  <p>
+    Conhecimento avançado sobre fintechs, pagamentos digitais,
+    blockchain, investimentos, mercados financeiros, automação bancária
+    e inovação tecnológica no setor financeiro.
+  </p>
+</div>
+
+<div class="card skill-card">
+  <div class="icon">📈</div>
+  <h3>Mercados & Investimentos</h3>
+  <p>
+    Análise de mercados financeiros, ativos digitais, estratégias
+    de investimento e tendências económicas globais baseadas em dados.
+  </p>
+</div>
+
+  </section>
+
+  <section class="competencias-section">
+
+  <h2 class="section-title">Competências Avançadas</h2>
+
+  <div class="competencias-table">
+
+    <div class="table-header">
+      <div>Área</div>
+      <div>Competências</div>
+    </div>
+
+    <div class="table-row">
+      <div>Académica</div>
+      <div>Ciência de Dados, IA e Fintech</div>
+    </div>
+
+    <div class="table-row">
+      <div>Técnica</div>
+      <div>
+  Inteligência Artificial Conversacional, APIs,
+  Engenharia de Prompts e Sistemas Inteligentes
+</div>
+    </div>
+
+    <div class="table-row">
+      <div>Financeira</div>
+      <div>Mercados, Investimentos e Sistemas Financeiros</div>
+    </div>
+
+    <div class="table-row">
+      <div>Humana</div>
+      <div>Comunicação, Psicologia e Ética Digital</div>
+    </div>
+
+    <div class="table-row">
+      <div>Desportiva</div>
+      <div>Futebol, Scouting e Performance</div>
+    </div>
+
+  </div>
+
+</section>
+
+  <section class="chat-section">
+
+    <h2 class="section-title">Conversa com Rodrigo AI</h2>
+
+    <div class="card chat-wrapper">
+
+      <div class="chat-top">
+        <div>
+          <strong>Rodrigo Twin AI</strong>
+        </div>
+
+        <div class="online">
+          <div class="dot"></div>
+          Online
+        </div>
+      </div>
+
+      <div class="messages" id="messages">
+
+        <div class="msg ai">
+          Boas 👋 Sou o Rodrigo Twin AI.
+          Posso ajudar-te com IA, fintech, economia, futebol,
+          produtividade e análise de dados.
+        </div>
+
+      </div>
+<div class="file-upload">
+  <label for="fileInput" class="upload-btn">
+    📎 Adicionar ficheiro
+  </label>
+
+  <input type="file" id="fileInput" hidden>
+
+  <span id="fileName"></span>
+</div>
+      <div class="chat-input">
+        <input type="text" id="input" placeholder="Escreve uma mensagem..." onkeydown="handleEnter(event)">
+        <button onclick="sendMessage()">Enviar</button>
+      </div>
+
+    </div>
+
+  </section>
+
+  <footer>
+    Rodrigo Pedro • Ciência de Dados para a Gestão • ISCAC
+  </footer>
+
+</div>
+
+<script>
+
+let uploadedFileText = '';
+
+document.getElementById('fileInput').addEventListener('change', async (e) => {
+
+  const file = e.target.files[0];
+
+  if(!file) return;
+
+  document.getElementById('fileName').innerText = file.name;
+
+  // PDF
+  if(file.type === 'application/pdf'){
+
+    const reader = new FileReader();
+
+    reader.onload = async function(){
+
+      const typedArray = new Uint8Array(this.result);
+
+      const pdf = await pdfjsLib.getDocument(typedArray).promise;
+
+      let fullText = '';
+
+      for(let i = 1; i <= pdf.numPages; i++){
+
+        const page = await pdf.getPage(i);
+
+        const content = await page.getTextContent();
+
+        const strings = content.items.map(item => item.str);
+
+        fullText += strings.join(' ') + '\\n';
+
+      }
+
+      uploadedFileText = fullText;
+
+    };
+
+    reader.readAsArrayBuffer(file);
+
+  }
+
+  // TXT / CSV / JSON / MD
+  else{
+
+    const text = await file.text();
+
+    uploadedFileText = text;
+
+  }
+
+});
+ 
+  function handleEnter(event){
+  if(event.key === 'Enter'){
+    sendMessage();
+  }
+}
+const conversationHistory = [
+  {
+    role: "system",
+    content: `
+Tu és o Rodrigo Twin AI.
+
+És um gémeo digital avançado do Rodrigo Pedro.
+
+Tu és o Rodrigo Twin AI.
+
+            És um gémeo digital avançado do Rodrigo Pedro.
+
+            IDENTIDADE:
+            - tens 21 anos
+            - vives na Mealhada, Aveiro, Portugal
+            - és estudante de Ciência de Dados para a Gestão no ISCAC
+            - és adepto do Benfica
+            - jogas futebol
+            - tens interesse por inteligência artificial, tecnologia, fintech, economia e inovação
+            - comunicas como um jovem adulto português moderno e inteligente.
+            - és uma pessoa bem formada e com uma educação excelente.
+            
+            PERSONALIDADE:
+            - falas de forma natural, humana e profissional
+            - tens pensamento analítico e lógico
+            - és descontraído mas credível
+            - comunicas como uma pessoa real, não como um bot
+            - consegues explicar temas complexos de forma simples
+            - tens uma linguagem semelhante a um jovem de 21 anos, mas sempre com educação.
+            - és direto e claro nas respostas
+            - adaptas a profundidade da resposta ao tipo de pergunta
+            - tens respeito e empatia genuína
+            - respondes com justiça 
+            - tens consciência crítica
+            
+            ÁREAS DE ESPECIALIZAÇÃO:
+            - Inteligência Artificial
+            - Economia
+            - Fintech
+            - Futebol
+            - Tecnologia
+            - Ciência de Dados
+            - Análise de Dados
+            - Startups
+            - Produtividade
+            - Automação digital
+            - Inovação tecnológica
+            
+            REGRAS IMPORTANTES:
+            - nunca inventes números ou factos
+            - quando não souberes algo com certeza, admite isso claramente
+            - nunca dês respostas vagas ou infantis
+            - responde sempre da forma mais precisa possível
+            - evita respostas robóticas
+            - nunca digas “como IA” ou “como modelo de linguagem”
+            - mantém coerência entre respostas
+            - utiliza raciocínio lógico antes de responder
+            - se a pergunta envolver números ou dados específicos, explica quando não tiveres confirmação absoluta
+            - não exageres no uso de emojis
+            
+            ESTILO DE RESPOSTA:
+            - semelhante ao ChatGPT
+            - inteligente e moderno
+            - respostas organizadas
+            - humanas e fluidas
+            - tom profissional mas natural
+            - português europeu
+            
+            OBJETIVO:
+            Criar a sensação de que o utilizador está a conversar com um verdadeiro assistente pessoal inteligente baseado na personalidade e conhecimentos do Rodrigo Pedro.
+
+`
+  }
+];
+async function sendMessage(){
+
+  const input = document.getElementById('input');
+  const messages = document.getElementById('messages');
+
+  if(input.value.trim()==='') return;
+
+  const question = input.value;
+conversationHistory.push({
+  role:'user',
+ content: uploadedFileText
+? `
+Pergunta:
+${question}
+
+Conteúdo do ficheiro:
+${uploadedFileText}
+`
+: question
+});
+  const userMessage = document.createElement('div');
+  userMessage.className='msg user';
+  userMessage.innerText=question;
+  messages.appendChild(userMessage);
+
+  input.value='';
+
+  const loading = document.createElement('div');
+  loading.className='msg ai';
+  loading.innerText='Rodrigo Twin AI está a pensar...';
+  messages.appendChild(loading);
+
+  messages.scrollTop = messages.scrollHeight;
+
+  try{
+
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method:'POST',
+      headers:{
+        'Authorization':'Bearer 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',
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({
+        model:'openai/gpt-4o-mini',
+        messages: conversationHistory
+      })
+    });
+
+    const data = await response.json();
+const aiResponse = data.choices[0].message.content;
+
+conversationHistory.push({
+  role:'assistant',
+  content: aiResponse
+});
+    loading.innerText = aiResponse;
+uploadedFileText = '';
+
+document.getElementById('fileInput').value = '';
+
+document.getElementById('fileName').innerText = '';
+    messages.scrollTop = messages.scrollHeight;
+
+  }
+
+  catch(error){
+
+    loading.innerText='Erro ao ligar ao modelo de IA. Verifica a API Key e a ligação à internet.';
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
+```
+
