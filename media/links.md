@@ -8,7 +8,7 @@
 
 > Episódio áudio sobre o projeto Rodrigo Twin AI.
 
-🔗 [Aceder ao Podcast](COLOCA_AQUI_O_LINK)
+🔗 [Aceder ao Podcast](https://drive.google.com/file/d/1pRmGm2TOz6kaa96Uk5Vu2rWqreftDOje/view?usp=drive_link)
 
 ---
 
@@ -16,7 +16,7 @@
 
 > Vídeo demonstrativo e apresentação visual do gémeo digital.
 
-🔗 [Aceder ao Vídeo](COLOCA_AQUI_O_LINK)
+🔗 [Aceder ao Vídeo](https://drive.google.com/file/d/1dOVX_33ZKWIBCzucefEKxqjrwdIFf1Xq/view?usp=drive_link)
 
 ---
 
@@ -24,25 +24,7 @@
 
 > Apresentação académica e técnica do projeto.
 
-🔗 [Aceder aos Slides (PDF)](COLOCA_AQUI_O_LINK)
-
-🔗 [Aceder aos Slides (PPTX)](COLOCA_AQUI_O_LINK)
-
----
-
-# 🌐 Website
-
-> Interface futurista do Rodrigo Twin AI.
-
-🔗 [Abrir Website](COLOCA_AQUI_O_LINK)
-
----
-
-# 📄 Relatório
-
-> Relatório académico completo do desenvolvimento do gémeo digital.
-
-🔗 [Abrir Relatório](COLOCA_AQUI_O_LINK)
+🔗 [Aceder aos Slides (PDF)](https://drive.google.com/file/d/1XudzGp-QNnT9kE62_Ky-Tas7jkuCqZs4/view?usp=drive_link)
 
 ---
 
@@ -50,7 +32,7 @@
 
 > Infografia visual do projeto Rodrigo Twin AI com resumo das funcionalidades, arquitetura e competências do gémeo digital.
 
-🔗 [Abrir Infografia](COLOCA_AQUI_O_LINK)
+🔗 [Abrir Infografia](https://drive.google.com/file/d/1-F48ftAXFN2FEQ_QtoW039d7FGZcpiOy/view?usp=drive_link)
 
 # 👨‍💻 Autor
 
